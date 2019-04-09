@@ -1,9 +1,29 @@
 import React, { Component } from 'react';
-import {Card, CardImg, CardText, CardBody, CardTitle, Media} from "reactstrap";
+import Moment from 'react-moment';
+import {Card, CardImg, CardText, CardBody, CardTitle} from "reactstrap";
 
 class Dishdetail extends Component {
   constructor(props) {
     super(props);
+  }
+
+  renderDish(dish) {
+    if (dish != null) {
+      return (
+          <Card>
+            <CardImg width="100%" src={dish.image} alt={dish.name} />
+            <CardBody>
+              <CardTitle>{dish.name}</CardTitle>
+              <CardText>{dish.description}</CardText>
+            </CardBody>
+          </Card>
+      );
+    } else {
+      return (
+        <div></div>
+      );
+    }
+
   }
 
   renderComments(comments) {
@@ -12,7 +32,7 @@ class Dishdetail extends Component {
         return (
             <li key={comment.id}>
               <p>{comment.comment}</p>
-              <p>-- {comment.author}, {comment.date}</p>
+              <p>-- {comment.author}, <Moment date={comment.date} format="MMM Do, YYYY"/></p>
             </li>
         );
       });
@@ -33,21 +53,13 @@ class Dishdetail extends Component {
   }
 
   render() {
-    const dish = this.props.dish;
-
     return (
         <div className="row">
           <div className="col-12 col-md-5 m-1">
-            <Card>
-              <CardImg width="100%" src={dish.image} alt={dish.name} />
-              <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-              </CardBody>
-            </Card>
+            {this.renderDish(this.props.dish)}
           </div>
           <div className="col-12 col-md-5 m-1">
-            {this.renderComments(dish.comments)}
+            {this.renderComments(this.props.dish.comments)}
           </div>
         </div>
     );
