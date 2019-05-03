@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import {Control, Errors, LocalForm} from "react-redux-form";
+import { Loading } from "./LoadingComponent";
 
 
 const RenderDish = function({dish}) {
@@ -59,6 +60,23 @@ const RenderComments = function({comments, addComment, dishId}) {
 }
 
 const DishDetail = (props) => {
+  if (props.isLoading) {
+    return (
+        <div className="container">
+          <div className="row">
+            <Loading/>
+          </div>
+        </div>
+    );
+  } else if (props.errMsg) {
+    return (
+        <div className="container">
+          <div className="row">
+            <h4>{props.errMsg}</h4>
+          </div>
+        </div>
+    );
+  } else if (props.dish != null) {
     return (
         <div className="container">
           <div className="row">
@@ -82,13 +100,18 @@ const DishDetail = (props) => {
             </div>
             <div className="col-12 col-md-5 m-1">
               <RenderComments comments={props.comments}
-                addComment={props.addComment}
-                dishId={props.dish.id}
+                              addComment={props.addComment}
+                              dishId={props.dish.id}
               />
             </div>
           </div>
         </div>
     );
+  } else {
+    return (
+        <div></div>
+    );
+  }
 }
 
 const required = (val) => val && val.length;
