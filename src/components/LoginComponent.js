@@ -5,13 +5,13 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.toggleModal = props.toggleModal;
+    this.onSuccess = props.onSuccess;
 
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin(event) {
-    this.toggleModal();
+    this.onSuccess();
 
     alert('Username: ' + this.username.value + 'Password: ' + this.password.value + 'Remember: ' + this.remember.checked);
 

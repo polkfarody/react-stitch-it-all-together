@@ -1,26 +1,36 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import {Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media} from 'reactstrap';
+import {Link} from 'react-router-dom';
 import {Loading} from "./LoadingComponent";
 import {baseUrl} from "../shared/baseUrl";
+import {Fade, Stagger} from 'react-animation-components';
 
 const RenderLeaders = ({leaders, isLoading, errMsg}) => {
   if (isLoading) {
     return (
-      <Loading/>
+        <Loading/>
     );
   } else if (errMsg) {
     return (
         <h4>{errMsg}</h4>
     );
   } else {
-    return leaders.map((leader) => {
-      return (
-          <div key={leader.id} className="col-12 mt-5">
-            <RenderLeader leader={leader}/>
-          </div>
-      );
-    });
+
+    return (
+        <>
+        <Stagger in>
+          {leaders.map((leader) => {
+            return (
+                <Fade in key={leader.id}>
+                  <div key={leader.id} className="col-12 mt-5">
+                    <RenderLeader leader={leader}/>
+                  </div>
+                </Fade>
+            );
+          })}
+        </Stagger>
+          </>
+    );
   }
 }
 
@@ -28,7 +38,7 @@ const RenderLeader = ({leader}) => {
   return (
       <Media tag="li">
         <Media left middle>
-          <Media object src={baseUrl + leader.image} alt={leader.name} />
+          <Media object src={baseUrl + leader.image} alt={leader.name}/>
         </Media>
         <Media body className="ml-5">
           <Media heading>{leader.name}</Media>
@@ -40,7 +50,7 @@ const RenderLeader = ({leader}) => {
 }
 
 function About(props) {
-  return(
+  return (
       <div className="container">
         <div className="row">
           <Breadcrumb>
@@ -49,14 +59,18 @@ function About(props) {
           </Breadcrumb>
           <div className="col-12">
             <h3>About Us</h3>
-            <hr />
+            <hr/>
           </div>
         </div>
         <div className="row row-content">
           <div className="col-12 col-md-6">
             <h2>Our History</h2>
-            <p>Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in Hong Kong. With its unique brand of world fusion cuisine that can be found nowhere else, it enjoys patronage from the A-list clientele in Hong Kong.  Featuring four of the best three-star Michelin chefs in the world, you never know what will arrive on your plate the next time you visit us.</p>
-            <p>The restaurant traces its humble beginnings to <em>The Frying Pan</em>, a successful chain started by our CEO, Mr. Peter Pan, that featured for the first time the world's best cuisines in a pan.</p>
+            <p>Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in
+              Hong Kong. With its unique brand of world fusion cuisine that can be found nowhere else, it enjoys
+              patronage from the A-list clientele in Hong Kong. Featuring four of the best three-star Michelin chefs in
+              the world, you never know what will arrive on your plate the next time you visit us.</p>
+            <p>The restaurant traces its humble beginnings to <em>The Frying Pan</em>, a successful chain started by our
+              CEO, Mr. Peter Pan, that featured for the first time the world's best cuisines in a pan.</p>
           </div>
           <div className="col-12 col-md-5">
             <Card>
@@ -96,7 +110,8 @@ function About(props) {
           </div>
           <div className="col-12">
             <Media list>
-              <RenderLeaders leaders={props.leaders.leaders} isLoading={props.leaders.isLoading} errMsg={props.leaders.errMsg}/>
+              <RenderLeaders leaders={props.leaders.leaders} isLoading={props.leaders.isLoading}
+                             errMsg={props.leaders.errMsg}/>
             </Media>
           </div>
         </div>

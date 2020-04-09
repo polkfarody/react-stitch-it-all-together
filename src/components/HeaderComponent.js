@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-  Jumbotron,
   Navbar,
   NavbarBrand,
   Nav,
@@ -75,30 +74,19 @@ class Header extends Component {
                 <Nav className="ml-auto">
                   <NavItem>
                     <Button outline onClick={this.toggleModal}>
-                      <span className="fa fa-sign-in fa-lg"></span>
+                      <span className="fa fa-sign-in fa-lg"></span> Login
                     </Button>
                   </NavItem>
                 </Nav>
               </Collapse>
             </div>
           </Navbar>
-          <Jumbotron>
-            <div className="container">
-              <div className="row row-header">
-                <div className="col-12 col-sm-6">
-                  <h1>Ristorante Con Fusion</h1>
-                  <p>We take inspiration from the World's best cuisine, and create a unique fusion experience. Our
-                    lipsmacking creations will tickle your culinary senses!</p>
-                </div>
-              </div>
-            </div>
-            <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-              <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
-              <ModalBody>
-                <Login toggleModal={() => { this.toggleModal() }} />
-              </ModalBody>
-            </Modal>
-          </Jumbotron>
+          <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+            <ModalBody>
+              <Login onSuccess={() => { this.toggleModal() }} />
+            </ModalBody>
+          </Modal>
         </>
     );
   }
