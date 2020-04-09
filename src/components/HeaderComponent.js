@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   Navbar,
   NavbarBrand,
+  NavDropdown,
   Nav,
   NavbarToggler,
   Collapse,
@@ -42,14 +43,18 @@ class Header extends Component {
   render() {
     return (
         <>
-          <Navbar dark expand="md">
+          <Navbar dark expand="md" className="navbar navbar-nbmf">
             <div className="container">
               <NavbarBrand className="mr-auto" href="/">
-                <img src="assets/images/logo.png" height="30" width="41" alt="Ristorante Con Fusion"/>
+                <span className="icon-nbmf-logo nbmf-logo-brand"/>
+                <div className="nbmf-title-text">
+                  Collaroy <br/>
+                  No dates
+                </div>
               </NavbarBrand>
               <NavbarToggler onClick={this.toggleNav}/>
               <Collapse isOpen={this.state.isNavOpen} navbar>
-                <Nav navbar>
+                <Nav navbar className="ml-auto">
                   <NavItem>
                     <NavLink className="nav-link" to="/home">
                       <span className="fa fa-home fa-lg"></span> Home
@@ -84,7 +89,9 @@ class Header extends Component {
           <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
             <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
             <ModalBody>
-              <Login onSuccess={() => { this.toggleModal() }} />
+              <Login onSuccess={() => {
+                this.toggleModal()
+              }}/>
             </ModalBody>
           </Modal>
         </>
