@@ -17,10 +17,10 @@ function RenderCard({item, isLoading, errMsg}) {
     return (
         <FadeTransform in transformProps={{exitTransform: 'scale(0.5) translate(-50%)'}}>
           <Card>
-            <CardImg src={baseUrl + item.image} alt={item.name}/>
+            {/*<CardImg src={baseUrl + item.image} alt={item.name}/>*/}
             <CardBody>
-              <CardTitle>{item.name}</CardTitle>
-              {item.designation ? <CardSubtitle>{item.designation}</CardSubtitle> : null}
+              <CardTitle>{item.title}</CardTitle>
+              <CardSubtitle>{item.typeName}</CardSubtitle>
               <CardText>{item.description}</CardText>
             </CardBody>
           </Card>
@@ -36,9 +36,8 @@ const Home = (props) => {
           <div className="container">
             <div className="row row-header">
               <div className="col-12 col-sm-6">
-                <h1>Northern Beaches Music Festival (Online)</h1>
-                <p>We take inspiration from the World's best cuisine, and create a unique fusion experience. Our
-                  lipsmacking creations will tickle your culinary senses!</p>
+                <h1>Stitch It All Together</h1>
+                <p>Sell it to me baby!</p>
               </div>
             </div>
           </div>
@@ -46,13 +45,7 @@ const Home = (props) => {
         <div className="container">
           <div className="row align-items-start">
             <div className="col-12 col-md m-1">
-              <RenderCard item={props.dish} isLoading={props.dishesLoading} errMsg={props.dishesErrMsg}/>
-            </div>
-            <div className="col-12 col-md m-1">
-              <RenderCard item={props.promotion} isLoading={props.promosLoading} errMsg={props.promosErrMsg}/>
-            </div>
-            <div className="col-12 col-md m-1">
-              <RenderCard item={props.leader} isLoading={props.leadersLoading} errMsg={props.leadersErrMsg}/>
+              <RenderCard item={props.projects} isLoading={props.projectsLoading} errMsg={props.projectsErrMsg}/>
             </div>
           </div>
         </div>

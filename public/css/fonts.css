@@ -1,19 +1,19 @@
-/*Include font NBMF Font*/
+/*Include font STITCH Font*/
 @font-face {
-    font-family: nbmf_shadow;
-    src: url(/../assets/fonts/nbmf_shadow.otf);
+    font-family: stitch_shadow;
+    src: url(/../assets/fonts/stitch_shadow.otf);
 }
 @font-face {
-    font-family: nbmf_outline;
-    src: url(/assets/fonts/nbmf_outline.otf);
+    font-family: stitch_outline;
+    src: url(/assets/fonts/stitch_outline.otf);
 }
 @font-face {
-    font-family: nbmf_sketch;
-    src: url(/assets/fonts/nbmf_sketche.otf);
+    font-family: stitch_sketch;
+    src: url(/assets/fonts/stitch_sketche.otf);
 }
 @font-face {
-    font-family: nbmf_solid;
-    src: url(/assets/fonts/nbmf_solid.otf);
+    font-family: stitch_solid;
+    src: url(/assets/fonts/stitch_solid.otf);
 }
 
 @font-face {
@@ -45,11 +45,11 @@
 	content: "\f073";
 }
 
-.icon-nbmf-text:before {
+.icon-stitch-text:before {
 	content: "\e601";
 }
 
-.icon-nbmf-logo:before {
+.icon-stitch-logo:before {
 	content: "\e600";
 }
 

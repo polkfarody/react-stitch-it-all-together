@@ -1,5 +1,5 @@
 h1, h2, h3, h4, h5, h6 {
-    font-family: nbmf_solid;
+    font-family: stitch_solid;
 }
 
 h1 {
@@ -60,19 +60,19 @@ h6 {
     margin: 0px;
 }
 
-span.nbmf-logo-brand {
+span.stitch-logo-brand {
     margin-left: 0px;
     font-size: 57px;
     text-shadow: 3px 3px 3px #002E42;
     text-decoration: none;
     margin: 0px 15px;
 }
-.nbmf-logo-brand:hover {
+.stitch-logo-brand:hover {
     color: #FFE800;
 }
 
-.nbmf-title-text {
-    font-family: nbmf_solid;
+.stitch-title-text {
+    font-family: stitch_solid;
     color: #FFF;
     font-size: 20px;
     line-height: 24px;
@@ -92,7 +92,7 @@ label.small {
 }
 
 /*NAV*/
-.navbar-nbmf {
+.navbar-stitch {
     background-color: #00557B;
     background-image: url(/assets/images/flags.png);
     background-position-y: 0px;
@@ -105,7 +105,7 @@ label.small {
 }
 
 
-.navbar-nav-nbmf .dropdown-menu {
+.navbar-nav-stitch .dropdown-menu {
     background: #00557B;
     background-image: url(/assets/images/flags.png);
     background-size: 65px;
@@ -117,41 +117,41 @@ label.small {
     display: block;
 }
 
-.navbar-nav-nbmf .dropdown-menu>li>a {
+.navbar-nav-stitch .dropdown-menu>li>a {
     color: #fff;
-    font-family: nbmf_solid;
+    font-family: stitch_solid;
     font-size: 16px;
     line-height: 16px;
 }
 
-.navbar-nav-nbmf .dropdown-menu>li>a:focus,
-.navbar-nav-nbmf .dropdown-menu>li>a:hover {
+.navbar-nav-stitch .dropdown-menu>li>a:focus,
+.navbar-nav-stitch .dropdown-menu>li>a:hover {
     background: transparent;
     color: #FFE800;
 }
 
-.navbar-nbmf a {
+.navbar-stitch a {
     color: #fff;
 }
 
-.navbar-nav-nbmf [class^="icon-"], .navbar-nav-nbmf [class*=" icon-"] {
+.navbar-nav-stitch [class^="icon-"], .navbar-nav-stitch [class*=" icon-"] {
     padding-right: 5px;
     font-size: 18px;
 }
 
-.navbar-nav-nbmf>li>a {
-    font-family: nbmf_solid;
+.navbar-nav-stitch>li>a {
+    font-family: stitch_solid;
     font-size: 20px;
     line-height: 20px;
     padding-top: 19px;
     padding-bottom: 19px;
 }
 
-.navbar-nav-nbmf>li>a:hover,
-.navbar-nav-nbmf>li>a:focus,
-.navbar-nav-nbmf .open>a:hover,
-.navbar-nav-nbmf .open>a:focus,
-.navbar-nav-nbmf .open>a
+.navbar-nav-stitch>li>a:hover,
+.navbar-nav-stitch>li>a:focus,
+.navbar-nav-stitch .open>a:hover,
+.navbar-nav-stitch .open>a:focus,
+.navbar-nav-stitch .open>a
 {
     color: #FFE800;
     background: transparent;
@@ -165,14 +165,14 @@ label.small {
 
 
 
-.navbar-toggle-nbmf {
+.navbar-toggle-stitch {
     background: #003C67;
     border: 1px solid #003459;
     padding: 10px 10px;
     margin-top: 15px;
 }
 
-.navbar-toggle-nbmf .icon-bar {
+.navbar-toggle-stitch .icon-bar {
     background: #fff;
 }
 
@@ -272,7 +272,7 @@ section.plain-bg {
     border-left: 10px solid #00557B;
 }
 
-.nbmf-page-divider {
+.stitch-page-divider {
     height: 45px;
     border-top: 15px solid #036374;
     border-bottom: 15px solid #008EA8;
@@ -369,7 +369,7 @@ section#start {
 
 .footer {
     background-color: #00557B;
-    background-image: url(/assets/images/nbmf-bg.png);
+    background-image: url(/assets/images/stitch-bg.png);
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: center bottom;
