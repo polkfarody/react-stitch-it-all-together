@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c5e9fc73-fc5f-44c8-aa77-66467e5f3b14" name="PI" url="http://stitch.local">
+        <fileTransfer host="stitch.local" port="22" privateKey="C:\Users\mdingle\.ssh\pi" rootFolder="/home/polk/stitch/react-stitch-it-all-together" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
-import Main from './components/MainComponent';
+import Layout from './containers/LayoutComponent';
 import './App.css';
 import {BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ConfigureStore } from "./redux/configureStore";
-
-
-const store = ConfigureStore();
+import {connect} from 'react-redux';
+import * as authActions from './store/actions/auth';
 
 class App extends Component {
+    componentDidMount() {
+        this.props.onTryAutoSignup()
+    }
 
-  render() {
+    render() {
     return (
-        <Provider store={store}>
           <BrowserRouter>
             <div>
-              <Main />
+              <Layout {...this.props}/>
             </div>
           </BrowserRouter>
-        </Provider>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.token !== null,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onTryAutoSignup: () => dispatch(authActions.authCheckState())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

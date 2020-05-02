@@ -44,7 +44,7 @@ const Footer = (props) => {
                 </div>
                 <div className="row justify-content-center">
                   <div className="col-auto">
-                    <p>© Copyright 2018 Ristorante Con Fusion</p>
+                    <p>&copy; Copyright 2020 Stitch It All Together</p>
                   </div>
                 </div>
               </div>
