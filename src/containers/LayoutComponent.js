@@ -6,15 +6,17 @@ import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchProjects} from "../store/actions/projects";
 import Login from "../components/LoginComponent";
+import * as authActions from "../store/actions/auth";
 
 const mapStateToProps = state => {
     return {
-        projects: state.projects
+        projects: state.projects,
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchProjects: () => dispatch(fetchProjects())
+    fetchProjects: () => dispatch(fetchProjects()),
+    logout: () => dispatch(authActions.authLogout())
 });
 
 class Layout extends Component {
@@ -38,7 +40,7 @@ class Layout extends Component {
                 <Header {...this.props} />
                         <Switch>
                             <Route path="/home" component={HomePage}/>
-                            <Route exact path='/login/' component={Login} />
+                            <Route exact path='/login/' component={() => <Login {...this.props}/>} />
                             <Redirect to="/home"/>
                         </Switch>
                 <Footer/>

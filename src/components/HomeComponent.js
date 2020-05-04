@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Jumbotron} from "reactstrap";
+import {Card, Jumbotron} from "react-bootstrap";
 import {Loading} from "./LoadingComponent";
 
 function RenderCard({item, isLoading, errMsg}) {
@@ -15,11 +15,11 @@ function RenderCard({item, isLoading, errMsg}) {
         return (
             <Card>
                 {/*<CardImg src={baseUrl + item.image} alt={item.name}/>*/}
-                <CardBody>
-                    <CardTitle>{item.title}</CardTitle>
-                    <CardSubtitle>{item.typeName}</CardSubtitle>
-                    <CardText>{item.description}</CardText>
-                </CardBody>
+                <Card.Body>
+                    <Card.Title>{item.title}</Card.Title>
+                    <Card.Subtitle>{item.typeName}</Card.Subtitle>
+                    <Card.Text>{item.description}</Card.Text>
+                </Card.Body>
             </Card>
         );
     }

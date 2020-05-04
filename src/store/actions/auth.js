@@ -1,6 +1,6 @@
 import * as ActionTypes from './actionTypes'
 import axios from 'axios';
-import * as HttpStatus from 'http-status-codes'
+import {formatErrorsFromApi} from '../utility';
 
 export const authStart = () => {
     return {
@@ -15,10 +15,10 @@ export const authSuccess = token => {
     }
 }
 
-export const authFail = error => {
+export const authFail = errors => {
     return {
         type: ActionTypes.AUTH_FAIL,
-        error: error
+        errors: errors
     }
 }
 
@@ -39,67 +39,44 @@ export const checkAuthTimeout = expiryTime => {
     }
 }
 
+const handleAuthSuccess = (data, dispatch) => {
+    const token = data.key;
+    const expiryDate = new Date(new Date().getTime() + 3600 * 1000).toString();
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiryDate', expiryDate);
+
+    // If login was successful, set the token in local storage
+    dispatch(authSuccess(token));
+    dispatch(checkAuthTimeout(3600));
+}
+
+const handleAuthError = (error, dispatch) => {
+    return dispatch(authFail(formatErrorsFromApi(error)));
+}
+
 export const authLogin = (username, password) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('/api/login/', {
-            username: username,
+        return axios.post('/api/auth/login/', {
+            email: username,
             password: password,
         })
-            .then(response => {
-                if (response.status === HttpStatus.OK) {
-                    return response;
-                } else {
-                    const error = new Error('Error ' + response.status + ': ' + response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            })
-            .then(response => response.data)
-            .then(data => {
-                const token = data.token;
-                const expiryDate = new Date(new Date().getTime() + 3600 * 1000).getTime();
-                localStorage.setItem('token', token);
-                localStorage.setItem('expiryDate', expiryDate);
-
-                // If login was successful, set the token in local storage
-                dispatch(authSuccess(token));
-                dispatch(checkAuthTimeout(3600));
-            })
-            .catch(error => dispatch(authFail(error)))
+            .then(response => handleAuthSuccess(response.data, dispatch))
+            .catch((error) => handleAuthError(error, dispatch))
     };
 };
 
 export const authSignup = (username, email, password1, password2) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('/api/register/', {
+        axios.post('/api/auth/register/', {
             username: username,
             email: email,
             password1: password1,
             password2: password2,
         })
-            .then(response => {
-                if (response.status === HttpStatus.OK) {
-                    return response;
-                } else {
-                    const error = new Error('Error ' + response.status + ': ' + response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            })
-            .then(response => response.data)
-            .then(data => {
-                const token = data.token;
-                const expiryDate = new Date(new Date().getTime() + 3600 * 1000).getTime();
-                localStorage.setItem('token', token);
-                localStorage.setItem('expiryDate', expiryDate);
-
-                // If login was successful, set the token in local storage
-                dispatch(authSuccess(token));
-                dispatch(checkAuthTimeout(3600));
-            })
-            .catch(error => dispatch(authFail(error)))
+            .then(response => handleAuthSuccess(response.data, dispatch))
+            .catch((error) => handleAuthError(error, dispatch))
     };
 }
 

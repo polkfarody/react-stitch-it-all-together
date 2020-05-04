@@ -1,91 +1,142 @@
 import React, {Component} from 'react';
-import {Button, FormGroup, Input, Label} from "reactstrap";
-import { Control, Form, Errors } from "react-redux-form"
-import {NavLink} from "react-router-dom";
-import {Loading} from "./LoadingComponent";
+import {Button, Form, InputGroup, Alert} from "react-bootstrap";
+import {Formik} from "formik"
 import {connect} from 'react-redux';
 import {authLogin} from "../store/actions/auth";
-
-
-const required = (val) => val && val.length;
+import * as yup from 'yup';
 
 class LoginForm extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this)
     }
-    
-    handleSubmit(data, event) {
-        event.preventDefault();
-        this.props.onAuth(data.username, data.password);
+
+    handleSubmit(values, {
+        props = this.props,
+        setSubmitting,
+        setErrors
+    }) {
+        props.onAuth(values.email, values.password).then((action) => {
+            if (props.isAuthenticated) {
+                props.history.push('/');
+            } else if (action.errors) {
+                setErrors(action.errors)
+            }
+
+            setSubmitting(false);
+        });
     }
 
-    render() {
-        let errorMessage = null;
-        if (this.props.error) {
-            errorMessage = (
-              <p>{this.props.error}</p>
+    handleErrors(errors) {
+        if (errors.server_error) {
+            return (
+                <Alert variant="danger">
+                    <strong>Something went wrong</strong>
+                    <p>Please try again, or come back another time :)</p>
+                </Alert>
             );
         }
 
+        if (errors.form_errors) {
+            return (
+                <Alert variant="danger">
+                    <strong>Login Error</strong>
+                    <p>Please check all fields and try again</p>
+                    <ul>
+                        {
+                            errors.form_errors.map((error, key) => {
+                                return <li key={key}>{error}</li>
+                            })
+                        }
+                    </ul>
+                </Alert>
+            );
+        }
+    }
+
+    render() {
+        const schema = yup.object({
+            email: yup.string().required(),
+            password: yup.string().required(),
+        });
+
+        let errorMessage = null;
+        if (this.props.errors) {
+            errorMessage = this.handleErrors(this.props.errors);
+        }
+
         return (
-            <div className="container">
+            <div noValidate className="container">
                 <div className="row align-items-start">
                     <div className="col-12 col-md m-1">
-                {errorMessage}
-                {
-                    this.props.isLoading ?
-                        <Loading/>
-                        :
-                        <Form model="login" onSubmit={this.handleSubmit}>
-                            <FormGroup>
-                                <Label htmlFor="username">Username</Label>
-                                <Control.text
-                                    model=".username"
-                                    id="username"
-                                    name="username"
-                                    className="form-control"
-                                    validators={{
-                                        required
-                                    }}
-                                />
-                                <Errors
-                                    className="text-danger"
-                                    model=".username"
-                                    show="touched"
-                                    messages={{
-                                        required: "Required"
-                                    }}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
-                                <Control.text
-                                    model=".password"
-                                    id="password"
-                                    name="password"
-                                    className="form-control"
-                                    validators={{
-                                        required
-                                    }}
-                                />
-                                <Errors
-                                    className="text-danger"
-                                    model=".password"
-                                    show="touched"
-                                    messages={{
-                                        required: "Required"
-                                    }}
-                                />
-                            </FormGroup>
-                            <Button type="submit" value="value" color="primary">Login</Button>
+                        {errorMessage}
+                        <Formik
+                            initialValues={{'email': '', 'password': ''}}
+                            validationSchema={schema}
+                            onSubmit={this.handleSubmit}
 
-                            <NavLink to={'/signup/'}>
-                                Signup
-                            </NavLink>
-                        </Form>
-                }
+                        >
+                            {({
+                                  handleSubmit,
+                                  handleChange,
+                                  values,
+                                  errors,
+                                  touched,
+                              }) => (
+                                <Form noValidate onSubmit={handleSubmit}>
+                                    <Form.Row>
+                                        <Form.Group controlId="formEmail">
+                                            <Form.Label>Email</Form.Label>
+                                            <InputGroup>
+                                                <InputGroup.Prepend>
+                                                    <InputGroup.Text id="emailPrepend">@</InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                <Form.Control
+                                                    type="text"
+                                                    aria-describedby="emailPrepend"
+                                                    name="email"
+                                                    onChange={handleChange}
+                                                    value={values.email}
+                                                    isInvalid={touched.email && !!errors.email}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.email}
+                                                </Form.Control.Feedback>
+                                            </InputGroup>
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Form.Group controlId="formPassword">
+                                            <Form.Label>Password</Form.Label>
+                                            <InputGroup>
+                                                <InputGroup.Prepend>
+                                                    <InputGroup.Text id="passwordPrepend">
+                                                        <span className='fa fa-lock'/>
+                                                    </InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                <Form.Control
+                                                    type="password"
+                                                    aria-describedby="passwordPrepend"
+                                                    name="password"
+                                                    onChange={handleChange}
+                                                    isInvalid={touched.password && !!errors.password}
+                                                    value={values.password}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.password}
+                                                </Form.Control.Feedback>
+                                            </InputGroup>
+                                        </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <Button variant="primary" type="submit" disabled={this.props.isLoading}>
+                                            Submit
+                                        </Button>
+                                    </Form.Row>
+                                </Form>
+                            )}
+                        </Formik>
                     </div>
                 </div>
             </div>
@@ -94,16 +145,16 @@ class LoginForm extends Component {
 }
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        isLoading: state.isLoading,
-        error: state.error,
+        isLoading: state.auth.isLoading,
+        errors: state.auth.errors
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (username, password) => dispatch(authLogin(username, password))
+        onAuth: (email, password) => dispatch(authLogin(email, password))
     }
 }
 

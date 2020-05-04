@@ -5,7 +5,7 @@ import {updateObject} from "../utility";
 const initialState = {
     token: null,
     isLoading: false,
-    error: null,
+    errors: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -17,20 +17,20 @@ const reducer = (state = initialState, action) => {
         case ActionTypes.AUTH_SUCCESS:
             return updateObject(state, {
                 isLoading: false,
-                error: null,
+                errors: null,
                 token: action.token
             });
         case ActionTypes.AUTH_FAIL:
             return updateObject(state, {
                 isLoading: false,
-                error: action.error,
+                errors: action.errors,
                 token: null,
             });
         case ActionTypes.AUTH_LOGOUT:
             return updateObject(state, {
                 isLoading: false,
                 token: null,
-                error: null
+                errors: null
             });
         default:
             return state
