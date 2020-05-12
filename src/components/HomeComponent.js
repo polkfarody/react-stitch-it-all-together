@@ -1,5 +1,5 @@
 import React from 'react';
-import {Jumbotron} from "react-bootstrap";
+import {Card, Jumbotron} from "react-bootstrap";
 
 const Home = (props) => {
     return (
@@ -8,7 +8,7 @@ const Home = (props) => {
                 <div className="container">
                     <div className="row row-header">
                         <div className="col-12 col-sm-6">
-                            <h1>Logged In Fucker</h1>
+                            <h1>Stitch It All Together</h1>
                             <p>Sell it to me baby!</p>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
+import MainLoader, {SmallLoader} from "./Loading";
 
 class Header extends Component {
   constructor(props) {
@@ -51,7 +52,13 @@ class Header extends Component {
                   <Nav.Item>
                     { this.props.isAuthenticated ?
                         <div>
-                          <div className="navbar-text mr-3">USERNAME</div>
+                          <div className="navbar-text mr-3">
+                            { this.props.user.isLoading  ?
+                              <SmallLoader />
+                              :
+                                <span>{this.props.user.user.username}</span>
+                            }
+                          </div>
                           <Button onClick={this.props.logout}>
                             <span className="fa fa-sign-out fa-lg"/> Logout
                           </Button>

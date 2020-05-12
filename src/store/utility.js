@@ -8,7 +8,6 @@ export const updateObject = (oldObject, updatedProperties) => {
 }
 
 export const formatErrorsForApi = (error) => {
-    console.log(error)
     if (error.response.status >= HttpStatus.INTERNAL_SERVER_ERROR) {
         return {
             server_error: error.message

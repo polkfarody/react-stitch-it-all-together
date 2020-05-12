@@ -676,3 +676,8 @@ section#start {
     opacity: 0;
     transition: opacity 500ms ease-in;
 }
+
+.media-list-item {
+    border-bottom: 1px dashed #eee;
+    padding: 10px 0px;
+}

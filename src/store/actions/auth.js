@@ -1,6 +1,7 @@
 import * as ActionTypes from './actionTypes'
 import axios from 'axios';
 import {formatErrorsForApi} from '../utility';
+import {fetchLoggedInUser} from "./user";
 
 export const authStart = () => {
     return {
@@ -98,6 +99,7 @@ export const authSignup = (username, email, password1, password2) => {
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
+        dispatch(authStart());
         if (token === undefined) {
             dispatch(authLogout());
         } else {
@@ -106,6 +108,7 @@ export const authCheckState = () => {
                 dispatch(authLogout());
             } else {
                 dispatch(authSuccess(token));
+                dispatch(fetchLoggedInUser());
                 dispatch(checkAuthTimeout((expiryDate.getTime() - new Date().getTime()) / 1000));
             }
         }

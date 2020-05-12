@@ -7,6 +7,7 @@ const initialState = {
     isLoading: false,
     errors: null,
     username: null,
+    isAuthChecked: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -15,31 +16,36 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {
                 isLoading: true,
                 errors: null,
-                token: null
+                token: null,
+                isAuthChecked: false,
             });
         case ActionTypes.AUTH_SUCCESS:
             return updateObject(state, {
                 isLoading: false,
                 errors: null,
-                token: action.token
+                token: action.token,
+                isAuthChecked: true,
             });
         case ActionTypes.AUTH_LOGGED_IN:
             return updateObject(state, {
                 isLoading: false,
                 errors: null,
-                username: action.username
+                username: action.username,
+                isAuthChecked: true,
             });
         case ActionTypes.AUTH_FAIL:
             return updateObject(state, {
                 isLoading: false,
                 errors: action.errors,
                 token: null,
+                isAuthChecked: true,
             });
         case ActionTypes.AUTH_LOGOUT:
             return updateObject(state, {
                 isLoading: false,
                 token: null,
-                errors: null
+                errors: null,
+                isAuthChecked: true,
             });
         default:
             return state
