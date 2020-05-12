@@ -1,6 +1,6 @@
 import * as ActionTypes from './actionTypes'
 import axios from 'axios';
-import {formatErrorsFromApi} from '../utility';
+import {formatErrorsForApi} from '../utility';
 
 export const authStart = () => {
     return {
@@ -12,6 +12,13 @@ export const authSuccess = token => {
     return {
         type: ActionTypes.AUTH_SUCCESS,
         token: token
+    }
+}
+
+export const authLoggedIn = username => {
+    return {
+        type: ActionTypes.AUTH_LOGGED_IN,
+        username: username,
     }
 }
 
@@ -31,6 +38,12 @@ export const authLogout = () => {
     }
 }
 
+export const authManualLogout = () => {
+    return {
+        type: ActionTypes.AUTH_LOGGED_OUT
+    }
+}
+
 export const checkAuthTimeout = expiryTime => {
     return dispatch => {
         setTimeout(() => {
@@ -39,7 +52,7 @@ export const checkAuthTimeout = expiryTime => {
     }
 }
 
-const handleAuthSuccess = (data, dispatch) => {
+const handleAuthSuccess = (username, data, dispatch) => {
     const token = data.key;
     const expiryDate = new Date(new Date().getTime() + 3600 * 1000).toString();
     localStorage.setItem('token', token);
@@ -47,21 +60,22 @@ const handleAuthSuccess = (data, dispatch) => {
 
     // If login was successful, set the token in local storage
     dispatch(authSuccess(token));
+    dispatch(authLoggedIn(username));
     dispatch(checkAuthTimeout(3600));
 }
 
 const handleAuthError = (error, dispatch) => {
-    return dispatch(authFail(formatErrorsFromApi(error)));
+    return dispatch(authFail(formatErrorsForApi(error)));
 }
 
 export const authLogin = (username, password) => {
     return dispatch => {
         dispatch(authStart());
         return axios.post('/api/auth/login/', {
-            email: username,
+            username: username,
             password: password,
         })
-            .then(response => handleAuthSuccess(response.data, dispatch))
+            .then(response => handleAuthSuccess(username, response.data, dispatch))
             .catch((error) => handleAuthError(error, dispatch))
     };
 };
@@ -75,7 +89,7 @@ export const authSignup = (username, email, password1, password2) => {
             password1: password1,
             password2: password2,
         })
-            .then(response => handleAuthSuccess(response.data, dispatch))
+            .then(response => handleAuthSuccess(username, response.data, dispatch))
             .catch((error) => handleAuthError(error, dispatch))
     };
 }

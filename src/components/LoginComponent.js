@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Button, Form, InputGroup, Alert} from "react-bootstrap";
+import {Button, Form, InputGroup} from "react-bootstrap";
 import {Formik} from "formik"
 import {connect} from 'react-redux';
 import {authLogin} from "../store/actions/auth";
 import * as yup from 'yup';
+import {ServerError, ErrorList} from "../components/Error";
+import {MainLoader} from "./Loading";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -13,51 +15,26 @@ class LoginForm extends Component {
     }
 
     handleSubmit(values, {
-        props = this.props,
-        setSubmitting,
-        setErrors
+        props = this.props
     }) {
-        props.onAuth(values.email, values.password).then((action) => {
-            if (props.isAuthenticated) {
-                props.history.push('/');
-            } else if (action.errors) {
-                setErrors(action.errors)
-            }
-
-            setSubmitting(false);
-        });
+        props.onAuth(values.username, values.password);
     }
 
     handleErrors(errors) {
         if (errors.server_error) {
-            return (
-                <Alert variant="danger">
-                    <strong>Something went wrong</strong>
-                    <p>Please try again, or come back another time :)</p>
-                </Alert>
-            );
+            return <ServerError/>
         }
 
         if (errors.form_errors) {
-            return (
-                <Alert variant="danger">
-                    <strong>Login Error</strong>
-                    <p>Please check all fields and try again</p>
-                    <ul>
-                        {
-                            errors.form_errors.map((error, key) => {
-                                return <li key={key}>{error}</li>
-                            })
-                        }
-                    </ul>
-                </Alert>
-            );
+            return <ErrorList title="Login Error" errors={errors.form_errors}/>
         }
+
+
     }
 
     render() {
         const schema = yup.object({
-            email: yup.string().required(),
+            username: yup.string().required(),
             password: yup.string().required(),
         });
 
@@ -66,13 +43,17 @@ class LoginForm extends Component {
             errorMessage = this.handleErrors(this.props.errors);
         }
 
+        if (this.props.isLoading) {
+            return <MainLoader text="Signing In..."/>
+        }
+
         return (
-            <div noValidate className="container">
+            <div className="container">
                 <div className="row align-items-start">
                     <div className="col-12 col-md m-1">
                         {errorMessage}
                         <Formik
-                            initialValues={{'email': '', 'password': ''}}
+                            initialValues={{'username': '', 'password': ''}}
                             validationSchema={schema}
                             onSubmit={this.handleSubmit}
 
@@ -86,22 +67,24 @@ class LoginForm extends Component {
                               }) => (
                                 <Form noValidate onSubmit={handleSubmit}>
                                     <Form.Row>
-                                        <Form.Group controlId="formEmail">
-                                            <Form.Label>Email</Form.Label>
+                                        <Form.Group controlId="formUsername">
+                                            <Form.Label>Username</Form.Label>
                                             <InputGroup>
                                                 <InputGroup.Prepend>
-                                                    <InputGroup.Text id="emailPrepend">@</InputGroup.Text>
+                                                    <InputGroup.Text id="usernamePrepend">
+                                                        <span className="fa fa-user"/>
+                                                    </InputGroup.Text>
                                                 </InputGroup.Prepend>
                                                 <Form.Control
                                                     type="text"
-                                                    aria-describedby="emailPrepend"
-                                                    name="email"
+                                                    aria-describedby="usernamePrepend"
+                                                    name="username"
                                                     onChange={handleChange}
-                                                    value={values.email}
-                                                    isInvalid={touched.email && !!errors.email}
+                                                    value={values.username}
+                                                    isInvalid={touched.username && !!errors.username}
                                                 />
                                                 <Form.Control.Feedback type="invalid">
-                                                    {errors.email}
+                                                    {errors.username}
                                                 </Form.Control.Feedback>
                                             </InputGroup>
                                         </Form.Group>
@@ -144,7 +127,6 @@ class LoginForm extends Component {
     }
 }
 
-
 const mapStateToProps = (state) => {
     return {
         isLoading: state.auth.isLoading,
@@ -154,7 +136,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password) => dispatch(authLogin(email, password))
+        onAuth: (username, password, setErrors) => dispatch(authLogin(username, password, setErrors))
     }
 }
 

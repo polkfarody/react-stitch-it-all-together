@@ -415,12 +415,6 @@ section#start {
     position: relative;
 }
 
-.alert .close {
-    font-size: 10px;
-    line-height: 20px;
-    color: rgb(236, 19, 15);
-}
-
 .editor-table {
     width: initial;
 }
@@ -647,8 +641,8 @@ section#start {
 .global-flash-container {
     position: fixed;
     z-index: 10;
-    width: 100%;
-    top: 5%;
+    min-width: 30%;
+    right: 20px;
     margin: 0 auto;
     padding: 0;
 }
@@ -664,4 +658,21 @@ section#start {
     font-size: 60px;
     font-weight: bold;
     color: #00557B;
+}
+
+.flash-alert-enter {
+    opacity: 0;
+}
+
+.flash-alert-exit-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+.flash-alert-exit {
+    opacity: 1;
+}
+
+.flash-alert-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
 }

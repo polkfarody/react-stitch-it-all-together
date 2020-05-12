@@ -6,6 +6,7 @@ const initialState = {
     token: null,
     isLoading: false,
     errors: null,
+    username: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -13,12 +14,20 @@ const reducer = (state = initialState, action) => {
         case ActionTypes.AUTH_START:
             return updateObject(state, {
                 isLoading: true,
+                errors: null,
+                token: null
             });
         case ActionTypes.AUTH_SUCCESS:
             return updateObject(state, {
                 isLoading: false,
                 errors: null,
                 token: action.token
+            });
+        case ActionTypes.AUTH_LOGGED_IN:
+            return updateObject(state, {
+                isLoading: false,
+                errors: null,
+                username: action.username
             });
         case ActionTypes.AUTH_FAIL:
             return updateObject(state, {
