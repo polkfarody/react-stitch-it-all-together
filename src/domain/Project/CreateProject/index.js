@@ -64,7 +64,7 @@ class CreateProject extends Component {
                                 'title': '',
                                 'description': '',
                                 type: 1,
-                                max_stitchers: 3,
+                                max_stitches: 3,
                                 is_private: 1,
                             }}
                             validationSchema={schema}

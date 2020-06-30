@@ -49,6 +49,14 @@ class Alert extends React.Component {
         return '';
     }
 
+    getContent() {
+        if (this.props.message.text !== undefined) {
+            return (
+                <div className="alert-content">{this.props.message.text}</div>
+            );
+        }
+    }
+
     closeAlert() {
         if (this.props.onClose === null) {
             this.setState({show: false})
@@ -63,7 +71,7 @@ class Alert extends React.Component {
         return (
             <TwitterAlert show={this.state.show} variant={alertType} onClick={() => this.closeAlert()} dismissible>
                 {this.getHeading()}
-                {message.text}
+                {this.getContent()}
             </TwitterAlert>
         );
     }
