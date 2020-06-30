@@ -24,10 +24,10 @@ class FlashMessages extends React.Component {
     }
 
     render () {
-        const alerts = this.state.messages.map( message =>
+        const alerts = this.state.messages.map((message, key) =>
             (
-                <CSSTransition key={message.id} timeout={500} classNames="flash-alert">
-                    <Alert key={ message.id } message={ message } onClose={ () => this.removeMessage(message) } timeout={3000} />
+                <CSSTransition key={key} timeout={500} classNames="flash-alert">
+                    <Alert key={key} message={ message } onClose={ () => this.removeMessage(message) } timeout={3000} />
                 </CSSTransition>
             )
         );
